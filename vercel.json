@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "frontend/package.json", "use": "@vercel/static-build" }
+  ],
+  "framework": "vite",
+  "buildCommand": "npm install --include=dev && npm run vercel-build",
+  "outputDirectory": "frontend/dist"
+}
