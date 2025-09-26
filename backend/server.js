@@ -43,12 +43,36 @@ app.use(helmet());
 app.use(express.json({ limit: '100kb' }));
 app.use(express.urlencoded({ extended: true }));
 
-// CORS (configure allowed origins via env)
-if (process.env.CORS_ORIGIN) {
-  app.use(cors({ origin: process.env.CORS_ORIGIN.split(',').map(s => s.trim()) }));
-} else {
-  app.use(cors());
+// CORS (configure allowed origins via env, supports wildcards like https://*.netlify.app)
+function originMatches(pattern, origin) {
+  if (pattern === '*' || !pattern) return true;
+  if (!origin) return false;
+  if (pattern.includes('*')) {
+    // Escape regex special chars then replace \* with .*
+    const esc = pattern
+      .replace(/[.+?^${}()|[\]\\]/g, '\\$&')
+      .replace(/\\\*/g, '.*')
+      .replace(/\*/g, '.*');
+    const re = new RegExp(`^${esc}$`);
+    return re.test(origin);
+  }
+  return pattern === origin;
 }
+
+const allowedOrigins = (process.env.CORS_ORIGIN || '')
+  .split(',')
+  .map(s => s.trim())
+  .filter(Boolean);
+
+app.use(cors({
+  origin: (origin, callback) => {
+    // Allow non-browser or same-origin requests without Origin header
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.length === 0) return callback(null, true);
+    const ok = allowedOrigins.some(p => originMatches(p, origin));
+    return callback(ok ? null : new Error('Not allowed by CORS'), ok);
+  },
+}));
 
 // Rate limiting for contact endpoint
 const contactLimiter = rateLimit({
