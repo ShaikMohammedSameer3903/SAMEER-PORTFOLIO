@@ -1,0 +1,414 @@
+<style>
+  :root {
+    --primary-color: #2ecc71;
+    --secondary-color: #3498db;
+    --accent-color: #f1c40f;
+    --dark-color: #0f1a26;
+    --light-color: #ecf0f1;
+    --glass-bg: rgba(255, 255, 255, 0.12);
+    --glass-border: rgba(255, 255, 255, 0.25);
+    --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  body { background: radial-gradient(circle at top left, rgba(46, 204, 113, 0.1), rgba(52, 152, 219, 0.05)), linear-gradient(135deg, var(--dark-color) 0%, #1a2a3a 100%); font-family: 'Poppins', sans-serif; color: var(--light-color); overflow-x: hidden; scroll-behavior: smooth; padding-top: 80px; line-height: 1.6; }
+  a { text-decoration: none !important; }
+  .navbar { background: rgba(15, 26, 38, 0.95); backdrop-filter: blur(10px); box-shadow: 0 4px 20px rgba(0,0,0,.3); padding: 1rem 2rem; transition: var(--transition); }
+  .navbar.scrolled { padding: .7rem 2rem; }
+  .navbar-brand { font-size: 2rem; font-weight: 800; background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)); -webkit-background-clip: text; background-clip: text; color: transparent; letter-spacing: 1px; }
+  .nav-hover { color: var(--light-color); font-weight: 600; padding: .7rem 1.5rem; position: relative; transition: var(--transition); font-size: 1.1rem; }
+  .nav-hover::after { content:''; position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:0; height:3px; background:var(--accent-color); transition:var(--transition); }
+  .nav-hover:hover::after,.nav-hover.active::after{ width:70%; }
+  .nav-hover:hover{ color:var(--accent-color); }
+  .hero-section { min-height: calc(100vh - 80px); display:flex; align-items:center; position:relative; overflow:hidden; padding:2rem 0; }
+  #particles-js { position:absolute; top:0; left:0; width:100%; height:100%; z-index:-1; }
+  .hero-content { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:2rem; }
+  .hero-text{ flex:1; padding-right:3rem; }
+  .hero-text h1{ font-size:4.5rem; font-weight:800; background:linear-gradient(45deg, var(--primary-color), var(--secondary-color)); -webkit-background-clip:text; background-clip:text; color:transparent; text-transform:uppercase; letter-spacing:2px; margin-bottom:1rem; }
+  .hero-text p{ font-size:1.6rem; color:rgba(236,240,241,.9); margin:1.5rem 0; font-weight:500; }
+  .hero-text #dynamic-text{ font-size:2.2rem; font-weight:700; color:var(--accent-color); min-height:70px; display:inline-block; margin-bottom:2rem; }
+  .profile-img{ width:320px; height:320px; border-radius:50%; border:8px solid var(--primary-color); box-shadow:0 15px 40px rgba(0,0,0,.4); transition:var(--transition); object-fit:cover; }
+  .profile-img:hover{ transform:scale(1.05) rotate(2deg); box-shadow:0 20px 50px rgba(0,0,0,.5); }
+  .social-icon{ color:var(--light-color); font-size:2.2rem; margin:0 1.5rem; transition:var(--transition); }
+  .social-icon:hover{ color:var(--secondary-color); transform:scale(1.2) translateY(-5px); }
+  .modern-btn{ background:linear-gradient(45deg, var(--primary-color), var(--secondary-color)); border:none; padding:.8rem 2.2rem; border-radius:30px; color:#fff; font-weight:600; transition:var(--transition); box-shadow:0 8px 20px rgba(0,0,0,.3); font-size:1.1rem; }
+  .modern-btn:hover{ transform:translateY(-6px) scale(1.05); box-shadow:0 12px 30px rgba(0,0,0,.4); }
+  .modern-btn-outline{ background:transparent; border:2px solid var(--accent-color); color:var(--accent-color); }
+  .modern-btn-outline:hover{ background:var(--accent-color); color:var(--dark-color); }
+  section{ padding:7rem 0; scroll-margin-top:80px; }
+  .section-title{ font-size:3rem; font-weight:800; margin-bottom:3.5rem; text-align:center; background:linear-gradient(45deg, var(--primary-color), var(--secondary-color)); -webkit-background-clip:text; background-clip:text; color:transparent; text-transform:uppercase; letter-spacing:1.5px; }
+  .section-title::after{ content:''; width:80px; height:5px; background:var(--accent-color); display:block; margin:.7rem auto; border-radius:2px; }
+  .glass-card{ background:var(--glass-bg); backdrop-filter:blur(15px); border:1px solid var(--glass-border); border-radius:20px; padding:2rem; box-shadow:0 10px 30px rgba(0,0,0,.3), 0 0 15px rgba(46,204,113,.1); transition:var(--transition); text-align:left; }
+  .glass-card:hover{ transform:translateY(-12px); box-shadow:0 15px 40px rgba(0,0,0,.4), 0 0 20px rgba(46,204,113,.2); }
+  .skill-badge{ background:linear-gradient(45deg, var(--primary-color), var(--secondary-color)); padding:.7rem 1.3rem; border-radius:25px; margin:.6rem; font-weight:600; transition:var(--transition); cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,.2); }
+  .skill-badge:hover{ transform:scale(1.12); box-shadow:0 6px 18px rgba(0,0,0,.3); }
+  .skill-badge.highlighted{ background:var(--accent-color); color:var(--dark-color); }
+  .tech-container{ display:flex; flex-wrap:wrap; gap:.7rem; margin-top:.7rem; }
+  .tech-badge{ background:rgba(255,255,255,.18); padding:.4rem 1rem; border-radius:18px; font-size:1rem; font-weight:500; transition:var(--transition); cursor:pointer; box-shadow:0 3px 10px rgba(0,0,0,.15); }
+  .tech-badge:hover{ background:var(--accent-color); color:var(--dark-color); transform:scale(1.12); box-shadow:0 5px 15px rgba(241,196,15,.3); }
+  .tech-badge.highlighted{ background:var(--accent-color); color:var(--dark-color); }
+  .project-card h5{ font-size:1.4rem; font-weight:700; margin-bottom:.7rem; color:var(--light-color); }
+  .project-card p{ font-size:1rem; color:rgba(236,240,241,.8); margin-bottom:.7rem; line-height:1.5; }
+  .project-card .view-code-btn{ background:linear-gradient(45deg, var(--accent-color), #f39c12); color:var(--dark-color); padding:.5rem 1.2rem; border-radius:22px; font-size:1rem; font-weight:600; display:inline-flex; align-items:center; gap:.4rem; transition:var(--transition); box-shadow:0 6px 18px rgba(241,196,15,.4); }
+  .project-card .view-code-btn:hover{ transform:translateY(-4px) scale(1.05); box-shadow:0 10px 25px rgba(241,196,15,.5); }
+  .contact-item{ transition:var(--transition); border-radius:15px; padding:1.2rem; margin-bottom:1.2rem; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15); }
+  .contact-item:hover{ transform:translateX(12px); background:rgba(255,255,255,.12); border-color:var(--primary-color); }
+  .form-control{ background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15); color:var(--light-color); transition:var(--transition); border-radius:10px; padding:.8rem; }
+  .form-control:focus{ background:rgba(255,255,255,.12); border-color:var(--primary-color); box-shadow:0 0 15px rgba(46,204,113,.4); color:var(--light-color); }
+  .form-control::placeholder{ color:rgba(236,240,241,.6); }
+  footer{ background:rgba(15,26,38,.95); backdrop-filter:blur(10px); padding:4rem 0; border-top:1px solid var(--glass-border); }
+  .footer-link{ color:var(--light-color); transition:var(--transition); display:block; padding:.6rem 0; font-weight:500; }
+  .footer-link:hover{ color:var(--accent-color); transform:translateX(8px); }
+  a:focus, button:focus, .social-icon:focus, .modern-btn:focus{ outline:2px solid var(--accent-color); outline-offset:2px; }
+  @media (max-width: 992px){ .hero-text h1{ font-size:3.5rem;} .hero-text #dynamic-text{ font-size:1.8rem;} .profile-img{ width:280px; height:280px;} .hero-content{ flex-direction:column; text-align:center;} .hero-text{ padding-right:0; margin-bottom:2.5rem;} section{ padding:5rem 0;} .project-card .tech-container{ justify-content:center; } }
+  @media (max-width: 768px){ .navbar{ padding:1rem;} .hero-section{ padding:3rem 1rem;} .hero-text h1{ font-size:2.8rem;} .hero-text p, .hero-text #dynamic-text{ font-size:1.3rem;} .profile-img{ width:220px; height:220px;} .modern-btn, .modern-btn-outline{ width:100%; margin-bottom:1.2rem;} .project-card h5{ font-size:1.2rem;} .project-card p{ font-size:.95rem;} }
+  @media (max-width: 576px){ .hero-text h1{ font-size:2.2rem;} .hero-text p, .hero-text #dynamic-text{ font-size:1.1rem;} .profile-img{ width:180px; height:180px;} .project-card .tech-container{ flex-direction:column; align-items:center; gap:.4rem;} .section-title{ font-size:2.5rem;} }
+  ::-webkit-scrollbar{ width:12px; }
+  ::-webkit-scrollbar-track{ background:var(--dark-color); border-radius:6px; }
+  ::-webkit-scrollbar-thumb{ background:linear-gradient(var(--primary-color), var(--secondary-color)); border-radius:6px; border:2px solid var(--dark-color); }
+</style>
+
+<!-- Navbar -->
+<nav id="mainNavbar" class="navbar navbar-expand-lg fixed-top" role="navigation">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <img loading="lazy" src="/assets/image/sameer.jpg" alt="Logo" width="45" class="me-3 rounded-circle">Shaik Mohammed Sameer
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link nav-hover" href="#home"><i class="fas fa-home me-2"></i> Home</a></li>
+        <li class="nav-item"><a class="nav-link nav-hover" href="#skills"><i class="fas fa-code me-2"></i> Skills</a></li>
+        <li class="nav-item"><a class="nav-link nav-hover" href="#education"><i class="fas fa-graduation-cap me-2"></i> Education</a></li>
+        <li class="nav-item"><a class="nav-link nav-hover" href="#projects"><i class="fas fa-project-diagram me-2"></i> Projects</a></li>
+        <li class="nav-item"><a class="nav-link nav-hover" href="#achievement"><i class="fas fa-trophy me-2"></i> Achievements</a></li>
+        <li class="nav-item"><a class="nav-link nav-hover" href="#contact"><i class="fas fa-paper-plane me-2"></i> Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section id="home" class="hero-section" role="main">
+  <div id="particles-js"></div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-text" data-aos="fade-up">
+        <h1>Shaik Mohammed Sameer</h1>
+        <p>B.Tech CSE | KL University</p>
+        <h3 id="dynamic-text"></h3>
+        <div class="d-flex gap-4 my-4" data-aos="fade-up" data-aos-delay="200">
+          <a href="https://linkedin.com/in/shaik-mohammed-sameer-6802bb2a0/" target="_blank" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+          <a href="https://github.com/ShaikMohammedSameer3903" target="_blank" class="social-icon"><i class="fab fa-github"></i></a>
+        </div>
+        <div class="d-flex flex-wrap gap-3" data-aos="fade-up" data-aos-delay="400">
+          <a href="#contact" class="modern-btn"><i class="fas fa-paper-plane me-2"></i>Contact Me</a>
+          <a href="#projects" class="modern-btn modern-btn-outline"><i class="fas fa-code me-2"></i>View Projects</a>
+          <a href="/assets/resumea.pdf" class="modern-btn" download><i class="fas fa-file-download me-2"></i>Download Resume</a>
+        </div>
+      </div>
+      <div data-aos="zoom-in" data-aos-delay="200">
+        <img loading="lazy" src="/assets/image/sameer.jpg" alt="Profile" class="profile-img">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Skills Section -->
+<section id="skills">
+  <div class="container">
+    <h2 class="section-title" data-aos="fade-up">Technical Skills</h2>
+    <div class="row g-4">
+      <div class="col-md-4" data-aos="zoom-in">
+        <div class="glass-card">
+          <h4 class="text-center mb-4" style="color: var(--light-color); font-weight: 700;">Programming Languages</h4>
+          <div class="d-flex flex-wrap justify-content-center">
+            <span class="skill-badge" data-skill="C"><i class="fab fa-cuttlefish"></i> C</span>
+            <span class="skill-badge" data-skill="Java"><i class="fab fa-java"></i> Java</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4" data-aos="zoom-in" data-aos-delay="100">
+        <div class="glass-card">
+          <h4 class="text-center mb-4" style="color: var(--light-color); font-weight: 700;">Web Development</h4>
+          <div class="d-flex flex-wrap justify-content-center">
+            <span class="skill-badge" data-skill="React.js"><i class="fab fa-react"></i> React.js</span>
+            <span class="skill-badge" data-skill="Node.js"><i class="fab fa-node-js"></i> Node.js</span>
+            <span class="skill-badge" data-skill="Spring Boot"><i class="fas fa-server"></i> Spring Boot</span>
+            <span class="skill-badge" data-skill="HTML"><i class="fab fa-html5"></i> HTML</span>
+            <span class="skill-badge" data-skill="CSS"><i class="fab fa-css3-alt"></i> CSS</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4" data-aos="zoom-in" data-aos-delay="200">
+        <div class="glass-card">
+          <h4 class="text-center mb-4" style="color: var(--light-color); font-weight: 700;">Others</h4>
+          <div class="d-flex flex-wrap justify-content-center">
+            <span class="skill-badge" data-skill="SQL"><i class="fas fa-database"></i> SQL</span>
+            <span class="skill-badge" data-skill="MySQL"><i class="fas fa-database"></i> MySQL</span>
+            <span class="skill-badge" data-skill="Firebase"><i class="fas fa-database"></i> Firebase</span>
+            <span class="skill-badge" data-skill="Linux"><i class="fab fa-linux"></i> Linux</span>
+            <span class="skill-badge" data-skill="Power BI"><i class="fas fa-chart-bar"></i> Power BI</span>
+            <span class="skill-badge" data-skill="LaTeX"><i class="fas fa-file-alt"></i> LaTeX</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Education Section -->
+<section id="education">
+  <div class="container">
+    <h2 class="section-title" data-aos="fade-up">Education</h2>
+    <div class="row justify-content-center g-4">
+      <div class="col-md-6" data-aos="zoom-in">
+        <div class="glass-card">
+          <div class="d-flex align-items-center">
+            <img loading="lazy" src="/assets/image/klu.jpg" alt="KL University" width="90" class="rounded-circle me-4">
+            <div>
+              <h4 style="font-weight: 700;">KL University, Vijayawada</h4>
+              <p>B.Tech in Computer Science and Engineering</p>
+              <p>August 2023 - Present | CGPA: 9.16/10</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6" data-aos="zoom-in" data-aos-delay="100">
+        <div class="glass-card">
+          <div class="d-flex align-items-center">
+            <img loading="lazy" src="/assets/image/srichaitanya.jpeg" alt="Sri Chaitanya" width="90" class="rounded-circle me-4">
+            <div>
+              <h4 style="font-weight: 700;">Sri Chaitanya College</h4>
+              <p>Intermediate, MPC</p>
+              <p>June 2021 - May 2023 | 84%</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Projects Section -->
+<section id="projects">
+  <div class="container">
+    <h2 class="section-title" data-aos="fade-up">Projects</h2>
+    <div class="row g-4">
+      <!-- 1. Farmer-Friendly Platform -->
+      <div class="col-12 col-md-6 col-lg-4" data-aos="zoom-in">
+        <div class="glass-card project-card h-100">
+          <img loading="lazy" src="/assets/image/farmer-platform.jpg" alt="Farmer-Friendly Platform" class="img-fluid rounded-top mb-3">
+          <h5>Farmer-Friendly Platform</h5>
+          <p>A web platform for direct agricultural sales with real-time features.</p>
+          <p><strong>Tech:</strong></p>
+          <div class="tech-container">
+            <span class="tech-badge" data-skill="React.js">React.js</span>
+            <span class="tech-badge" data-skill="Spring Boot">Spring Boot</span>
+            <span class="tech-badge" data-skill="MySQL">MySQL</span>
+          </div>
+          <a href="https://github.com/ShaikMohammedSameer3903/farm-web" target="_blank" class="view-code-btn mt-3"><i class="fab fa-github"></i> View Code</a>
+        </div>
+      </div>
+
+      <!-- 2. ATM Simulation Program -->
+      <div class="col-12 col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay="100">
+        <div class="glass-card project-card h-100">
+          <img loading="lazy" src="/assets/image/atm-sim.jpg" alt="ATM Simulation" class="img-fluid rounded-top mb-3">
+          <h5>ATM Simulation Program</h5>
+          <p>A Java-based ATM simulation with secure GUI features.</p>
+          <p><strong>Tech:</strong></p>
+          <div class="tech-container">
+            <span class="tech-badge" data-skill="Java">Java</span>
+            <span class="tech-badge" data-skill="Java Swing">Java Swing</span>
+          </div>
+          <a href="https://github.com/ShaikMohammedSameer3903/SmartATM-JavaGUI" target="_blank" class="view-code-btn mt-3"><i class="fab fa-github"></i> View Code</a>
+        </div>
+      </div>
+
+      <!-- 3. Job Portal -->
+      <div class="col-12 col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay="200">
+        <div class="glass-card project-card h-100">
+          <img loading="lazy" src="/assets/image/job-portal.jpg" alt="Job Portal" class="img-fluid rounded-top mb-3">
+          <h5>Job Portal</h5>
+          <p>A web-based portal connecting job seekers and employers.</p>
+          <p><strong>Tech:</strong></p>
+          <div class="tech-container">
+            <span class="tech-badge" data-skill="React.js">React.js</span>
+            <span class="tech-badge" data-skill="Spring Boot">Spring Boot</span>
+            <span class="tech-badge" data-skill="MySQL">MySQL</span>
+          </div>
+          <a href="https://github.com/ShaikMohammedSameer3903" target="_blank" class="view-code-btn mt-3"><i class="fab fa-github"></i> View Code</a>
+        </div>
+      </div>
+
+      <!-- 4. BiteFlow Project Card -->
+      <div class="col-12 col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay="300">
+        <div class="glass-card project-card h-100">
+          <img loading="lazy" src="/assets/image/biteflow.jpg" alt="BiteFlow Food Delivery" class="img-fluid rounded-top mb-3">
+          <h5>BiteFlow - Food Delivery Platform</h5>
+          <p>End-to-end food delivery platform with menu, cart, checkout, and admin features.</p>
+          <p><strong>Tech:</strong></p>
+          <div class="tech-container">
+            <span class="tech-badge">React</span>
+            <span class="tech-badge">Node.js</span>
+            <span class="tech-badge">Express</span>
+            <span class="tech-badge">MongoDB</span>
+            <span class="tech-badge">Tailwind</span>
+          </div>
+          <div class="d-flex gap-2 mt-3">
+            <a href="https://github.com/ShaikMohammedSameer3903/BiteFlow-A-Food-Delivery-Platform" target="_blank" class="view-code-btn"><i class="fab fa-github"></i> GitHub</a>
+            <a href="#" target="_blank" class="view-code-btn" id="biteflow-demo-link"><i class="fas fa-external-link-alt"></i> Live</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Shopping Website Project Card -->
+      <div class="col-12 col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay="400">
+        <div class="glass-card project-card h-100">
+          <img loading="lazy" src="/assets/image/shopping.jpg" alt="Shopping Website" class="img-fluid rounded-top mb-3">
+          <h5>Shopping Website</h5>
+          <p>E-commerce site featuring product listings, cart, and checkout flow.</p>
+          <p><strong>Tech:</strong></p>
+          <div class="tech-container">
+            <span class="tech-badge">React</span>
+            <span class="tech-badge">Node.js</span>
+            <span class="tech-badge">Express</span>
+            <span class="tech-badge">MongoDB</span>
+          </div>
+          <div class="d-flex gap-2 mt-3">
+            <a href="https://github.com/ShaikMohammedSameer3903" target="_blank" class="view-code-btn"><i class="fab fa-github"></i> GitHub</a>
+            <a href="#" target="_blank" class="view-code-btn" id="shopping-demo-link"><i class="fas fa-external-link-alt"></i> Live</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Achievements Section -->
+<section id="achievement">
+  <div class="container">
+    <h2 class="section-title" data-aos="fade-up">Achievements & Certifications</h2>
+    <div class="row g-4">
+      <div class="col-md-4" data-aos="zoom-in">
+        <div class="glass-card p-3">
+          <h5 style="font-weight: 700;">Salesforce AI Associate</h5>
+          <p>Completed in October 2024</p>
+          <span class="badge bg-primary rounded-pill">Certificate</span>
+        </div>
+      </div>
+      <div class="col-md-4" data-aos="zoom-in" data-aos-delay="100">
+        <div class="glass-card p-3">
+          <h5 style="font-weight: 700;">Cambridge English Exam</h5>
+          <p>Conducted by Cambridge</p>
+          <span class="badge bg-primary rounded-pill">Certificate</span>
+        </div>
+      </div>
+      <div class="col-md-4" data-aos="zoom-in" data-aos-delay="200">
+        <div class="glass-card p-3">
+          <h5 style="font-weight: 700;">130+ Day Coding Streak</h5>
+          <p>Consistent problem-solving practice on CodeChef</p>
+          <a href="https://www.codechef.com/users/kl2000030621" target="_blank" class="badge bg-success rounded-pill"><i class="fab fa-codepen me-1"></i> View Profile</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact">
+  <div class="container">
+    <h2 class="section-title" data-aos="fade-up">Get In Touch</h2>
+    <div class="row g-4">
+      <div class="col-lg-4" data-aos="fade-up">
+        <div class="glass-card p-4 h-100">
+          <h4 style="background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)); -webkit-background-clip: text; background-clip: text; color: transparent; font-weight: 700;" class="mb-4">Contact Info</h4>
+          <div class="contact-item">
+            <div class="d-flex align-items-center">
+              <i class="fas fa-envelope me-3 fa-lg" style="color: var(--primary-color);"></i>
+              <a href="mailto:shaiksameer3909sam@gmail.com" style="color: var(--light-color);">shaiksameer3909sam@gmail.com</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="d-flex align-items-center">
+              <i class="fas fa-phone me-3 fa-lg" style="color: var(--primary-color);"></i>
+              <a href="tel:+919030259526" style="color: var(--light-color);">+91 9030259526</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="d-flex align-items-center">
+              <i class="fas fa-map-marker-alt me-3 fa-lg" style="color: var(--primary-color);"></i>
+              <span>Vijayawada, Andhra Pradesh, India</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8" data-aos="fade-up" data-aos-delay="100">
+        <div class="glass-card p-4 h-100">
+          <h4 style="background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)); -webkit-background-clip: text; background-clip: text; color: transparent; font-weight: 700;" class="mb-4">Send Me a Message</h4>
+          <form id="contactForm" action="" method="POST" novalidate>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <input type="text" name="name" class="form-control" placeholder="Your Name" required>
+              </div>
+              <div class="col-md-6">
+                <input type="email" name="email" class="form-control" placeholder="Your Email" required>
+              </div>
+              <div class="col-12">
+                <input type="text" name="subject" class="form-control" placeholder="Subject">
+              </div>
+              <div class="col-12">
+                <textarea name="message" class="form-control" rows="6" placeholder="Your Message" required></textarea>
+              </div>
+              <div class="visually-hidden" aria-hidden="true">
+                <label for="website">Website</label>
+                <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+              </div>
+              <div class="col-12">
+                <button type="submit" class="modern-btn">
+                  <i class="fas fa-paper-plane me-2"></i>Send Message
+                </button>
+              </div>
+            </div>
+          </form>
+          <div id="formStatus" class="mt-3 text-center"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container py-5">
+    <div class="row g-4">
+      <div class="col-lg-4" data-aos="fade-up">
+        <h4 style="background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)); -webkit-background-clip: text; background-clip: text; color: transparent; font-weight: 700;" class="mb-4">About Me</h4>
+        <p>I am Shaik Mohammed Sameer, a B.Tech CSE student at KL University, skilled in web development and programming. I enjoy building scalable solutions using modern technologies like React.js, Spring Boot, and Firebase. I possess strong logical and analytical skills, with experience leading a team of 3 in the Farmer-Friendly Platform project, demonstrating teamwork and communication.</p>
+        <h5 style="color: var(--light-color); font-weight: 600; margin-top: 1.5rem;">Languages</h5>
+        <p>Urdu (Mother Tongue), Telugu (Native), English (Fluent), Hindi (Fluent)</p>
+      </div>
+      <div class="col-lg-2 col-md-6" data-aos="fade-up" data-aos-delay="100">
+        <h5 style="background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)); -webkit-background-clip: text; background-clip: text; color: transparent; font-weight: 700;" class="mb-4">Quick Links</h5>
+        <a href="#home" class="footer-link">Home</a>
+        <a href="#skills" class="footer-link">Skills</a>
+        <a href="#education" class="footer-link">Education</a>
+        <a href="#projects" class="footer-link">Projects</a>
+      </div>
+      <div class="col-lg-2 col-md-6" data-aos="fade-up" data-aos-delay="200">
+        <h5 style="background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)); -webkit-background-clip: text; background-clip: text; color: transparent; font-weight: 700;" class="mb-4">More Links</h5>
+        <a href="#achievement" class="footer-link">Achievements</a>
+        <a href="#contact" class="footer-link">Contact</a>
+      </div>
+      <div class="col-lg-4" data-aos="fade-up" data-aos-delay="300">
+        <h5 style="background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)); -webkit-background-clip: text; background-clip: text; color: transparent; font-weight: 700;" class="mb-4">Connect with Me</h5>
+        <div class="d-flex gap-4 mt-4 justify-content-center">
+          <a href="https://linkedin.com/in/shaik-mohammed-sameer-6802bb2a0/" target="_blank" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+          <a href="https://github.com/ShaikMohammedSameer3903" target="_blank" class="social-icon"><i class="fab fa-github"></i></a>
+        </div>
+      </div>
+    </div>
+    <p class="text-center mt-4" style="font-size: 0.9rem;">© 2025 Shaik Mohammed Sameer | All Rights Reserved</p>
+  </div>
+</footer>
